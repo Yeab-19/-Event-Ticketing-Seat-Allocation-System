@@ -1,0 +1,78 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+const int Max_users = 5;
+
+struct User {
+    string name;
+    string email;
+};
+
+struct Event {
+    string event_name;
+    int event_date;
+    string event_location;
+};
+
+struct Ticket {
+    int ticket_id;
+    User users[Max_users];
+    Event event;
+    int seat_numbers[Max_users];
+    int user_count;
+    bool is_vip;
+
+    Ticket* next;
+};
+
+class TicketSystemLinkedList {
+private:
+    Ticket* head;
+
+
+public:
+    void search_ticket() {
+        int id;
+        cout << "Enter Ticket ID to search: ";
+        cin >> id;
+
+        Ticket* temp = head;
+        while (temp) {
+            if (temp->ticket_id == id) {
+                cout << "Ticket ID: " << temp->ticket_id << endl;
+                for (int i = 0; i < temp->user_count; i++) {
+                    cout << "User  " << (i + 1) << ": " << temp->users[i].name << " (" << temp->users[i].email << ") - Seat: " << temp->seat_numbers[i] << endl;
+                }
+                cout << "Event: " << temp->event.event_name << " on " << temp->event.event_date << " at " << temp->event.event_location << endl;
+                cout << "VIP: " << (temp->is_vip ? "Yes" : "No") << endl;
+                return;
+            }
+            temp = temp->next;
+        }
+        cout << "Ticket not found." << endl;
+    }
+   };
+    int main() {
+    TicketSystemLinkedList system;
+    int choice;
+
+    while (true) {
+        cout << "\n--- Event Ticketing & Seat Allocation System ---" << endl;
+        cout << "1. Search Ticket" << endl;
+        cout << "2. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                system.search_ticket();
+                break;
+            case 2:
+                cout << "Exiting..." << endl;
+                return 0;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+}
